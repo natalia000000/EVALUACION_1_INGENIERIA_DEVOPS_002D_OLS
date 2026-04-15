@@ -8,7 +8,7 @@
 - **Dashboard:** Permite visualizar información del inventario.
 - **Hotfix:** Corrige un error en el módulo de login.
 
-##Gitflow
+## Gitflow
 
 Se utilizó GitFlow para organizar el desarrollo:
 

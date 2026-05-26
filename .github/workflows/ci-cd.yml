@@ -14,7 +14,7 @@ on:
       - develop
 
 jobs:
-  build-test-security-deploy:
+  build-test-security:
     runs-on: ubuntu-latest
 
     defaults:
@@ -34,23 +34,18 @@ jobs:
       - name: Give execute permission to Maven Wrapper
         run: chmod +x mvnw
 
-      - name: Build project
-        run: ./mvnw clean install -DskipTests
-
-      - name: Run Tests
-        run: ./mvnw test
+      - name: Build and Test
+        run: ./mvnw clean test
 
       - name: Build Docker image
         run: docker build -t perfulandia-backend .
 
-      - name: Install Snyk
-        run: npm install -g snyk
-
-      - name: Authenticate Snyk
-        run: snyk auth ${{ secrets.SNYK_TOKEN }}
-
       - name: Snyk Security Scan
-        run: snyk test --severity-threshold=high
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          npm install -g snyk
+          snyk test --severity-threshold=high
 
       - name: SonarQube Scan
         run: |
@@ -58,11 +53,6 @@ jobs:
           -Dsonar.projectKey=Perfulandia-Backend-Natalia \
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-
-      - name: Deploy with Docker Compose
-        run: |
-          docker compose up -d --build
-          docker ps
 
       - name: Build Success
         run: echo "CI/CD ejecutado correctamente"

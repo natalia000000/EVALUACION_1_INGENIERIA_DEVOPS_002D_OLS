@@ -28,9 +28,15 @@ Push a main
 Pull request hacia main o develop
 
 ## Etapas del pipeline:
+
 Checkout del código
+
 Configuración de Java 21
+
 Compilación y ejecución de tests
+
 Construcción de imagen Docker
+
 Análisis de seguridad con Snyk
+
 Análisis de calidad con SonarQube

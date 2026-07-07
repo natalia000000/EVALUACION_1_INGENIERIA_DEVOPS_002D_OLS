@@ -4,29 +4,34 @@ services:
   app:
     build: .
     container_name: perfulandia-backend
+
     ports:
       - "8080:8080"
+
     depends_on:
-      - mysql_db
+      mysql_db:
+        condition: service_healthy
+
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/inventario_perfulandia
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
 
-    logging:
-      driver: awslogs
-      options:
-        awslogs-region: us-east-1
-        awslogs-group: inventario-service
-        awslogs-stream: app
-        awslogs-create-group: "true"
-
   mysql_db:
     image: mysql:8.0
     container_name: mysql_perfulandia
     restart: always
+
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: inventario_perfulandia
+
     ports:
       - "3306:3306"
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s

@@ -53,7 +53,7 @@ Se configuró **SonarQube** para realizar un análisis estático del código, de
 
 Estas herramientas permiten validar que el código cumpla con estándares de seguridad y calidad antes de ser desplegado en producción.
 
-# Despliegue Manual en EC2
+## Despliegue Manual en EC2
 
 El despliegue manual del microservicio se realiza en una instancia EC2 de AWS, donde se instala Docker y Docker Compose para ejecutar la aplicación junto con su base de datos MySQL.
 

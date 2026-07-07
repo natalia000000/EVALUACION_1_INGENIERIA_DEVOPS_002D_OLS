@@ -53,6 +53,15 @@ Se configuró **SonarQube** para realizar un análisis estático del código, de
 
 Estas herramientas permiten validar que el código cumpla con estándares de seguridad y calidad antes de ser desplegado en producción.
 
+# Despliegue Manual en EC2
+
+El despliegue manual del microservicio se realiza en una instancia EC2 de AWS, donde se instala Docker y Docker Compose para ejecutar la aplicación junto con su base de datos MySQL.
+
+Primero se accede a la instancia mediante SSH, se clona el repositorio del proyecto y se configura el archivo `docker-compose.yml` con los servicios del backend y la base de datos. Luego se construyen y levantan los contenedores mediante `docker compose up --build`, verificando que la aplicación y MySQL estén ejecutándose correctamente con `docker ps` y los logs de Docker.
+
+Finalmente, se prueba el funcionamiento del microservicio accediendo a la IP pública de la instancia EC2 mediante el puerto configurado (`8080`) o utilizando comandos como `curl` para validar la respuesta del servicio.
+
+
 ## Monitoreo con Amazon CloudWatch
 
 Se configuró **Amazon CloudWatch** para monitorear el rendimiento de la instancia **EC2** mediante métricas de CPU, memoria y almacenamiento.

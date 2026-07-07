@@ -40,3 +40,27 @@ Construcción de imagen Docker
 Análisis de seguridad con Snyk
 
 Análisis de calidad con SonarQube
+
+## Análisis de Seguridad y Calidad de Código
+
+Se integraron **Snyk** y **SonarQube** dentro del flujo CI/CD para mejorar la seguridad y calidad del microservicio.
+
+### Snyk
+Se utilizó **Snyk** para analizar las dependencias del proyecto y detectar vulnerabilidades conocidas en librerías utilizadas. Permite identificar riesgos de seguridad antes del despliegue y mantener componentes actualizados.
+
+### SonarQube
+Se configuró **SonarQube** para realizar un análisis estático del código, detectando errores, malas prácticas, código duplicado y problemas de mantenibilidad.
+
+Estas herramientas permiten validar que el código cumpla con estándares de seguridad y calidad antes de ser desplegado en producción.
+
+## Monitoreo con Amazon CloudWatch
+
+Se configuró **Amazon CloudWatch** para monitorear el rendimiento de la instancia **EC2** mediante métricas de CPU, memoria y almacenamiento.
+
+Métricas utilizadas:
+- **cpu_usage_user:** Uso de CPU por la aplicación.
+- **cpu_usage_system:** Uso de CPU del sistema operativo.
+- **mem_used_percent:** Porcentaje de memoria RAM utilizada.
+- **disk_used_percent:** Porcentaje de almacenamiento ocupado.
+
+Estas métricas permiten supervisar el consumo de recursos y detectar posibles problemas de rendimiento.

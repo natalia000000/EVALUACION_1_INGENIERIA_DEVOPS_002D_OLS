@@ -25,65 +25,54 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      
-      # JAVA SETUP
-      
+      # JAVA
       - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
 
-      - name: Give execute permission to Maven Wrapper
+      - name: Dar permisos a Maven Wrapper
         run: chmod +x mvnw
 
-      
-      # BUILD & TEST
-      
-      - name: Build and Test
-        run: ./mvnw clean test
+      # BUILD Y TEST
+      - name: Build & Test
+        run: ./mvnw clean verify
 
-      
-      # DOCKER BUILD
-      
-      - name: Build Docker image
+      # DOCKER
+      - name: Build Docker Image
         run: docker build -t perfulandia-backend .
 
-      
-      # NODE (para SNYK)
-      
+      # NODE PARA SNYK
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install Snyk
+      - name: Instalar Snyk
         run: npm install -g snyk
 
-      - name: Snyk Security Scan
+      - name: Snyk Scan
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk test --severity-threshold=critical || true
 
-
-      # SONARQUBE ANALYSIS
-      - name: SonarQube Scan
-        run: |
-          ./mvnw sonar:sonar \
-          -Dsonar.projectKey=Perfulandia-Backend-Natalia \
-          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-
-
-      # QUALITY GATE
-      - name: SonarQube Quality Gate Check
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        timeout-minutes: 5
+      # SONARQUBE CLOUD
+      - name: SonarQube Cloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          ./mvnw sonar:sonar \
+          -Dsonar.projectKey=EVALUACION_1_INGENIERIA_DEVOPS_002D_OLS \
+          -Dsonar.organization=natalia000000 \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.token=${SONAR_TOKEN}
 
+      # QUALITY GATE
+      - name: Quality Gate
+        uses: SonarSource/sonarqube-quality-gate-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      # SUCCESS
-      - name: Build Success
-        run: echo "CI/CD ejecutado correctamente"
+      - name: Finalizado
+        run: echo "CI/CD ejecutado correctamente."
